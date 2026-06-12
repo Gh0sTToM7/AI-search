@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hledání kawaii UwU Twina ✨🥺</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght=400;600;700&display=swap');
+
+        /* Definice barev pomocí CSS proměnných pro snadný tmavý režim */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fff0f5, #ffccd5); /* Růžové pozadí */
+            --container-bg: #ffffff;
+            --text-color: #5c4d5c;
+            --accent-color: #ff66b3;
+            --border-color: #ffb3d9;
+            --input-bg: #fff9fc;
+            --btn-gradient: linear-gradient(45deg, #ff99cc, #ffb3e6);
+            --shadow: rgba(255, 182, 193, 0.5);
+            --subtitle-color: #8c738c;
+        }
+
+        /* Tmavý fialový režim 💜 */
+        body.dark-mode {
+            --bg-gradient: linear-gradient(135deg, #1a0033, #330066); /* Fialové pozadí */
+            --container-bg: #26004d;
+            --text-color: #f3e6ff;
+            --accent-color: #cc66ff;
+            --border-color: #9933ff;
+            --input-bg: #14002a;
+            --btn-gradient: linear-gradient(45deg, #a64dff, #d9b3ff);
+            --shadow: rgba(153, 51, 255, 0.4);
+            --subtitle-color: #b399ff;
+        }
+
+        body {
+            font-family: 'Quicksand', 'Comic Sans MS', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px var(--shadow);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            border: 3px solid var(--border-color);
+            position: relative;
+            transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        /* Tlačítko pro změnu režimu */
+        .toggle-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--btn-gradient);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 3px 8px var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            color: var(--accent-color);
+            font-size: 26px;
+            margin-bottom: 5px;
+            margin-top: 10px;
+        }
+
+        .subtitle {
+            color: var(--subtitle-color);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 15px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Hlavní odesílací tlačítko */
+        .submit-btn {
+            background: var(--btn-gradient);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            width: 100%;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Quicksand', sans-serif;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        /* Načítání a Výsledek */
+        #loading, #result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            font-size: 50px;
+            animation: bounce 1s infinite alternate;
+            margin: 0 auto 15px auto;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+
+        .prank-text {
+            font-size: 32px;
+            color: var(--accent-color);
+            font-weight: bold;
+            animation: pop 0.5s ease-out;
+            margin-bottom: 10px;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0) rotate(-10deg); }
+            80% { transform: scale(1.1) rotate(5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .prank-image {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 20px;
+            margin: 15px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 4px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button class="toggle-btn" id="themeToggle">✨ Dark Mode 🌙</button>
+
+        <div id="formSection">
+            <h1>Tvůj kawaii Twin! (✿◠‿◠)</h1>
+            <p class="subtitle">Magic AI najde tvého Twina ✨</p>
+            
+            <form id="twinForm">
+                <div class="form-group">
+                    <label for="jmeno">Tvé jméno 🌸:</label>
+                    <input type="text" id="jmeno" required placeholder="Jak ti říkají?">
+                </div>
+
+                <div class="form-group">
+                    <label for="vek">Věk 🎂:</label>
+                    <input type="number" id="vek" required placeholder="Kolik ti je?">
+                </div>
+
+                <div class="form-group">
+                    <label for="mesto">Město 🏡:</label>
+                    <input type="text" id="mesto" required placeholder="Kde bydlíš?">
+                </div>
+
+                <div class="form-group">
+                    <label for="pohlavi">Biologické pohlaví 🧬:</label>
+                    <select id="pohlavi" required>
+                        <option value="" disabled selected>Vyber prosím...</option>
+                        <option value="zena">Žena 👩</option>
+                        <option value="muz">Muž 👨</option>
+                        <option value="intersex">Intersex 🔬</option>
+                        <option value="jine">Nechci uvést 🤍</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Genderová identita 💖:</label>
+                    <select id="gender" required>
+                        <option value="" disabled selected>Vyber prosím...</option>
+                        <option value="cis">Cisgender (odpovídá pohlaví) 👧👦</option>
+                        <option value="trans">Transgender 🏳️‍⚧️</option>
+                        <option value="nonbinary">Non-binary 💛🤍💜🖤</option>
+                        <option value="genderfluid">Genderfluid 🌊</option>
+                        <option value="agender">Agender ⚪</option>
+                        <option value="jine">Něco jiného / Nechci říct ✨</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="orientace">Sexuální orientace 🌈:</label>
+                    <select id="orientace" required>
+                        <option value="" disabled selected>Vyber prosím...</option>
+                        <option value="hetero">Hetero 🌸</option>
+                        <option value="gay">Gay 🏳️‍🌈</option>
+                        <option value="lesba">Lesba 👭</option>
+                        <option value="bi">Bi 💖💜💙</option>
+                        <option value="pan">Pan 🥞</option>
+                        <option value="ace">Asexuální 🍰</option>
+                        <option value="jine">Nevím / Je mi to jedno 🤷</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="konicky">Co tě baví 🎮🎨:</label>
+                    <textarea id="konicky" rows="2" placeholder="Hry, kreslení, spánek UwU..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="fotka">Fotečka obličeje 📸:</label>
+                    <input type="file" id="fotka" accept="image/*" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Search my Twin! 🥺👉👈</button>
+            </form>
+        </div>
+
+        <div id="loading">
+            <div class="spinner">🪄</div>
+            <h3 style="color: var(--accent-color);">Searching Twin like you... ✨</h3>
+            <p id="loadingText">Sending butterflies to you 🦋...</p>
+        </div>
+
+        <div id="result">
+            <h2 class="prank-text">Baf!! Je to PRANK!! HAHAHA!! 🤡💕</h2>
+            <img src="https://http.cat/404" alt="Not Found Cat" class="prank-image">
+            <p style="font-weight: 600;">Žádný tvůj Twin neexistuje! (╥_╥)</p>
+            <p>Jsi jen ty a to je na tobě tak výjimečný! 💖✨</p>
+            <button class="submit-btn" onclick="location.reload()">Nachytat někoho dalšího! 🤭</button>
+        </div>
+    </div>
+
+    <script>
+        // Funkce pro přepínání tmavého fialového režimu
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.innerText = "✨ Light Mode ☀️";
+            } else {
+                themeToggle.innerText = "✨ Dark Mode 🌙";
+            }
+        });
+
+        // Obsluha odeslání formuláře
+        document.getElementById('twinForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Data nikam neodchází, zůstávají v bezpečí
+
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            const loadingText = document.getElementById('loadingText');
+            
+            setTimeout(() => {
+                loadingText.innerText = "Analyzuji tvoji cute auru 💖...";
+            }, 1500);
+
+            setTimeout(() => {
+                loadingText.innerText = "Něco jsem našel!! posílám fotku... 🥺";
+            }, 3000);
+
+            // Po 4.5 sekundách ukážeme výsledek s kočičkou
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+            }, 4500);
+        });
+    </script>
+</body>
+</html>
